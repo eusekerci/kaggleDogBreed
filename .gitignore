@@ -102,3 +102,5 @@ ENV/
 
 test/
 train/
+test.zip
+train.zip
