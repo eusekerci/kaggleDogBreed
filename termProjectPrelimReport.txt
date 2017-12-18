@@ -1,0 +1,7 @@
+StudentName: Enes Ugur SEKERCI
+StudentID: 504171508
+Competition Name: Spooky Author Identification
+kaggleID: eusekerci
+kaggleScore: 1.08199
+kaggleScoreDate: 21.11.2017 23.07.59
+methodNames: Python
