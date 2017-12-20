@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:\\Homeworks\\MachineLearning\\project\\dog_breed_identification.tfl"
+all_model_checkpoint_paths: "D:\\Homeworks\\MachineLearning\\project\\dog_breed_identification.tfl"

@@ -37,7 +37,6 @@ tf.__version__
 nwidth = 32
 nheight = 32
 
-"""
 archive_train = ZipFile("Data/train.zip", 'r')
 archive_test = ZipFile("Data/test.zip", 'r')
 
@@ -64,7 +63,7 @@ for i in range(1,len(archive_test.namelist()[:])):
     allImage[i-1]=image
     
 pickle.dump(allImage, open( "Data/test" + '.p', "wb" ) )
-"""
+
 
 train = pickle.load( open( "Data/train.p", "rb" ) )
 test = pickle.load( open( "Data/test.p", "rb" ) )
@@ -84,7 +83,7 @@ def matrix_Bin(train_label):
     print(labels0)
 
     for _, i in enumerate(itemfreq(labels0)[:,0].astype(int)):
-        labels_bin0 = np.where(labels0 == itemfreq(labels0)[:,0][i], 1., 0.)
+        labels_bin0 = np.where(labels0 == itemfreq(labels0)[:,0][i], 1.0, 0.0)
         labels_bin0 = labels_bin0.reshape(1, labels_bin0.shape[0])
         if(labels_bin.shape[0] == 0):
            labels_bin = labels_bin0
@@ -108,7 +107,6 @@ plt.show()
 
 
 #num_validation = 0.30
-#X_train, X_test, Y_train, Y_test = train_test_split(train_filtered, labels_bin, test_size=num_validation, random_state=6)
 num_validation = 0.30
 X_train, X_test, Y_train, Y_test = train_test_split(train, labels_bin, test_size=num_validation, random_state=6)
 
