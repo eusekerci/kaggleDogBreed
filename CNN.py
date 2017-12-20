@@ -34,8 +34,8 @@ from sklearn.model_selection import train_test_split
 
 tf.__version__
 
-nwidth = 32
-nheight = 32
+nwidth = 64
+nheight = 64
 
 archive_train = ZipFile("Data/train.zip", 'r')
 archive_test = ZipFile("Data/test.zip", 'r')
@@ -105,7 +105,7 @@ plt.show()
 """
 
 #num_validation = 0.30
-num_validation = 0.30
+num_validation = 0.15
 X_train, X_test, Y_train, Y_test = train_test_split(train, labels_bin, test_size=num_validation, random_state=6)
 
 # Real-time data preprocessing
@@ -129,6 +129,14 @@ network = conv_2d(network, 64, 3, activation='relu')
 network = max_pool_2d(network, 2)
 network = fully_connected(network, 512, activation='relu')
 network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
 network = fully_connected(network, 120, activation='softmax')
 network = regression(network, optimizer='adam',
                      loss='categorical_crossentropy',
@@ -136,8 +144,8 @@ network = regression(network, optimizer='adam',
 
 # Train using classifier
 model = tflearn.DNN(network, tensorboard_verbose=0, checkpoint_path='dog_breed_identification.tfl.ckpt')
-model.fit(X_train, Y_train, n_epoch=100, shuffle=True, validation_set=(X_test, Y_test),
-          show_metric=True, batch_size=96, run_id='dog_breed')
+model.fit(X_train, Y_train, n_epoch=50, shuffle=True, validation_set=(X_test, Y_test),
+          show_metric=True, run_id='dog_breed')
 
 model.save("dog_breed_identification.tfl")
 

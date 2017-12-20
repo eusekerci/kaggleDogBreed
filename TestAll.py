@@ -23,8 +23,8 @@ from IPython.display import display
 import pickle
 import csv
 
-nwidth = 32
-nheight = 32
+nwidth = 64
+nheight = 64
 
 archive_test = ZipFile("Data/test.zip", 'r')
 
@@ -76,6 +76,7 @@ labels_cls = np.argmax(labels_bin, axis=1)
 img_prep = ImagePreprocessing()
 img_prep.add_featurewise_zero_center()
 img_prep.add_featurewise_stdnorm()
+
 img_aug = ImageAugmentation()
 img_aug.add_random_flip_leftright()
 img_aug.add_random_rotation(max_angle=25.)
@@ -91,30 +92,39 @@ network = conv_2d(network, 64, 3, activation='relu')
 network = max_pool_2d(network, 2)
 network = fully_connected(network, 512, activation='relu')
 network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
+network = fully_connected(network, 512, activation='relu')
+network = dropout(network, 0.5)
 network = fully_connected(network, 120, activation='softmax')
 network = regression(network, optimizer='adam',
                      loss='categorical_crossentropy',
                      learning_rate=0.001)
 
+# Train using classifier
 model = tflearn.DNN(network, tensorboard_verbose=0, checkpoint_path='dog_breed_identification.tfl.ckpt')
-model.load("dog_breed_identification.tfl.ckpt-7500")
+model.load("dog_breed_identification.tfl.ckpt-6800")
 
 print("Prediction Started")
 
-float_formatter = lambda x: "%.15f" % x
+float_formatter = lambda x: "%.17f" % x
 np.set_printoptions(formatter={'float_kind':float_formatter})
 
 sol = np.append(["id"], labels_name)
 sol = np.array([sol])
 #print(sol)
 
-for i in range(3):
+for i in range(len(test)):
     prediction = model.predict([test[i]])
     pred = np.argmax(prediction, axis=1)
     itemindex = np.where(labels_cls==pred)
     #print(labels_cls[itemindex][i])
     print(str(i) + " " +filenames[i][5:-4])
-    pred = np.array(["%.15f" %x for x in prediction.reshape(prediction.size)])
+    pred = np.array(["%.17f" %x for x in prediction.reshape(prediction.size)])
     pred = pred.reshape(prediction.shape)
     prediction = np.append([filenames[i][5:-4]], pred)
     prediction = np.array([prediction])
